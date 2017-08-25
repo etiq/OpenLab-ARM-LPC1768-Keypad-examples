@@ -24,15 +24,8 @@
 
 void sendbite(char bite)
 {
-    KEYPAD_DATA_CLR =	KEYPAD_DATA_MASK;                   
-    KEYPAD_DATA_SET = (((bite >> 0) & 0x01) << KEYPAD_D0);
-    KEYPAD_DATA_SET = (((bite >> 1) & 0x01) << KEYPAD_D1);
-    KEYPAD_DATA_SET = (((bite >> 2) & 0x01) << KEYPAD_D2);
-    KEYPAD_DATA_SET = (((bite >> 3) & 0x01) << KEYPAD_D3);
-    KEYPAD_DATA_SET = (((bite >> 4) & 0x01) << KEYPAD_D4);
-    KEYPAD_DATA_SET = (((bite >> 5) & 0x01) << KEYPAD_D5);
-    KEYPAD_DATA_SET = (((bite >> 6) & 0x01) << KEYPAD_D6);
-    KEYPAD_DATA_SET = (((bite >> 7) & 0x01) << KEYPAD_D7);
+    KEYPAD_DATA_CLR =	KEYPAD_DATA_MASK;
+		KEYPAD_DATA_SET = (bite << KEYPAD_D0);	
 }
 
 int readbite(int column)
@@ -62,7 +55,7 @@ void GetKey()
 {
 		while(1)
 	{
-	 /*1st column made low keeping other columns high and scan for the rows*/
+	 /*1st row made low keeping other rows high and scan for which column reflects the software low*/
    sendbite(0XF7);      //F7	08          
 	 if(readbite(3) == 0)
 	 {
@@ -90,7 +83,7 @@ void GetKey()
 	 }
 	 delay_ms(10);
 
-	 /*2nd column made low keeping other columns high and scan for the rows*/
+	 /*2nd row made low keeping other rows high and scan for which column reflects the software low*/
 	 sendbite(0xFB);			//FB	04
 	 if(readbite(3)==0)
 	 {
@@ -118,7 +111,7 @@ void GetKey()
 	 }
 	 delay_ms(10);	 
 
-	 /*3rd column made low keeping other columns high and scan for the rows*/
+	 /*3rd row made low keeping other rows high and scan for which column reflects the software low*/
 	 sendbite(0xFD);			//FD	02
 	 if(readbite(3)==0)
 	 {
@@ -146,7 +139,7 @@ void GetKey()
 	 }
 	 delay_ms(10);
 
-	 /*4th column made low keeping other columns high and scan for the rows*/
+	 /*4th row made low keeping other rows high and scan for which column reflects the software low*/
 	 sendbite(0xFE);				//FE	01
 	 if(readbite(3)==0)
 	 {
